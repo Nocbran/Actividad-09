@@ -19,7 +19,7 @@ def Reg_Clientes (n,cont=1):
         destinos.append(destino)
 
     Clientes[codigo] = {
-        "Nombre": nombre,
+        "nombre": nombre,
         "destino" : destinos
     }
 
@@ -34,7 +34,7 @@ def ContDestinos (listClientes, claves=None, i=0):
     if i >= len(claves):
         return  0
     codigo = claves[i]
-    NumDestinos = len(listClientes[codigo]['Destinos'])
+    NumDestinos = len(listClientes[codigo]['destinos'])
 
     return  NumDestinos + ContDestinos(listClientes,claves,i+1)
 '''*******************************************************************************'''
@@ -44,7 +44,7 @@ def ClienteConMasDestinos(claves,i=0,MaxCliente= None, MaxCantCliente =0):
         return MaxCliente,MaxCantCliente
     codigo = claves[i]
     nombre = Clientes[codigo]['nombre']
-    cantidad = len(Clientes[codigo]['Destinos'])
+    cantidad = len(Clientes[codigo]['destinos'])
 
     if cantidad > MaxCantCliente:
         return  ClienteConMasDestinos(claves,i+1,nombre,cantidad)
@@ -55,4 +55,15 @@ def MostrarResultados():
     for codigo, datos in Clientes.items():
         print(f"Codigo: {codigo}")
         print(f"Nombre: {datos['nombre']}")
-        print(f"Destinos: ")
+        print("Destinos:",",".join(datos['destinos']))
+
+    tot = ContDestinos(Clientes)
+    print(f"Total de destinos regristrados entre todos los clientes: {tot}")
+
+    claves = list(Clientes.keys())
+    NomMax,CantMax = ClienteConMasDestinos(claves)
+    print(f"Cliente con mas destinos: {NomMax} ({CantMax}destinos)")
+'''*******************************************************************************'''
+CantClientes = int(input("Cuantos clientes desea ingresar: "))
+Reg_Clientes(CantClientes)
+MostrarResultados()
